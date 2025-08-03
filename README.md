@@ -1,0 +1,265 @@
+# Quiz Spark - Interactive Learning Platform
+
+A comprehensive quiz application built with Next.js, featuring authentication, admin and student panels, and interactive quiz creation and taking capabilities.
+
+## 🚀 Deployment
+
+This application can be easily deployed on Vercel. We've provided several guides to help you deploy successfully:
+
+- [GITHUB_VERCEL_DEPLOYMENT.md](./GITHUB_VERCEL_DEPLOYMENT.md) - **RECOMMENDED**: Deploy via GitHub integration (most reliable method)
+- [VERCEL_SETUP.md](./VERCEL_SETUP.md) - General setup instructions
+- [VERCEL_DASHBOARD_DEPLOYMENT.md](./VERCEL_DASHBOARD_DEPLOYMENT.md) - Step-by-step dashboard deployment guide
+- [VERCEL_TROUBLESHOOTING.md](./VERCEL_TROUBLESHOOTING.md) - Solutions for common deployment issues
+
+### Deployment Readiness Check
+
+Before deploying, you can run our deployment readiness check script to identify potential issues:
+
+```bash
+node scripts/deployment-check.js
+```
+
+This script will check for:
+- Required files
+- Environment variables
+- Package.json configuration
+- Next.js configuration
+- MongoDB connection setup
+
+**Important Note:** If you encounter rate limit issues with the Vercel CLI, use the GitHub integration or dashboard deployment method described in the guides.
+
+## 🚀 New Features (Latest Update)
+
+### 🔐 Enhanced Security & Access Control
+- **Separate Admin & Employee Portals**: Dedicated routes for different user types
+- **Admin Authentication**: Secure admin access with username/password prompt
+- **Role-Based Access**: Proper separation of admin and employee functionalities
+- **Quick Test Access**: Non-authenticated test access via name and store name
+
+### ✏️ Manual Answer Sheet Editing
+- **View & Edit Results**: Admins can manually review and edit test results
+- **Answer Override**: Toggle correct/incorrect status for individual questions
+- **Score Recalculation**: Automatic score updates based on manual changes
+- **Detailed Review Interface**: Side-by-side comparison of student and correct answers
+
+### 📊 Enhanced Results Management
+- **Comprehensive Results Table**: Employee name, store name, marks secured, total marks
+- **Filter by Quiz**: Easy filtering of results by specific tests
+- **Export Functionality**: CSV export with detailed results
+- **Real-time Updates**: Instant updates when results are modified
+
+### 🧾 Flexible Test Access
+- **Name & Store Access**: Employees can access tests using name and store name
+- **Optional Email**: Email is optional for record-keeping purposes
+- **Session Management**: Secure session storage for test access
+- **Auto-Submit**: Automatic test submission when timer expires
+
+### ⏱️ Auto-Submit Feature
+- **Timer Expiry**: Automatic submission when countdown reaches zero
+- **User Notification**: Clear notification when auto-submit occurs
+- **Progress Preservation**: All answers are saved before auto-submission
+
+## Core Features
+
+### 🔐 Authentication System
+- **Clerk Integration**: Secure authentication with Clerk
+- **User Profiles**: Custom user profiles with role-based access
+- **Role Management**: Admin and Student roles with different permissions
+
+### 👨‍🏫 Admin Panel
+- **Quiz Creation**: Build custom quizzes with multiple question types (MCQ, Text, True/False, Fill-in-blank)
+- **Bulk Upload**: Import questions from Excel/CSV files with validation
+- **Analytics Dashboard**: Comprehensive insights and performance metrics
+- **Student Management**: Track student progress and performance
+- **Question Types**: MCQ, Text, True/False, Fill-in-blank with individual time limits
+- **Advanced Quiz Settings**: Difficulty levels, passing scores, time limits, categories
+
+### 👨‍🎓 Student Panel
+- **Interactive Quiz Taking**: Modern, responsive quiz interface
+- **Real-time Timer**: Countdown timer with auto-submission
+- **Progress Tracking**: Visual progress indicators and navigation
+- **Detailed Results**: Comprehensive result analysis with explanations
+- **Performance Analytics**: Track improvement over time
+- **Question Flagging**: Mark questions for review
+
+### 🎨 Design & UX
+- **Modern UI**: Clean, responsive design with Tailwind CSS
+- **Yellow Theme**: Consistent yellow, white, and black color scheme
+- **Interactive Elements**: Hover effects, transitions, and smooth animations
+- **Mobile Responsive**: Works seamlessly on all device sizes
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React 18, Tailwind CSS
+- **Authentication**: Clerk
+- **Database**: MongoDB with Mongoose
+- **File Processing**: Excel/CSV import with xlsx library
+- **Icons**: FontAwesome
+- **State Management**: React Context API
+- **Styling**: Tailwind CSS with custom color scheme
+- **Real-time Features**: Auto-save, timers, progress tracking
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+ 
+- MongoDB database
+- Clerk account for authentication
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd quiz-spark
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   Create a `.env` file with the following variables:
+   ```env
+   MONGO_URL=your_mongodb_connection_string
+   
+   # Clerk Authentication
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+   CLERK_SECRET_KEY=your_clerk_secret_key
+   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+   ```
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser**
+   Navigate to `http://localhost:3000`
+
+## Project Structure
+
+```
+app/
+├── Components/           # Reusable UI components
+│   ├── UserProfileProvider.js  # User profile context
+│   ├── Navbar.js        # Navigation component
+│   └── ...
+├── api/                 # API routes
+│   ├── quizzes/         # Quiz CRUD operations
+│   ├── user/           # User management
+│   ├── user-profile/   # User profile management
+│   ├── bulk-upload/    # Bulk upload functionality
+│   └── analytics/      # Analytics data endpoints
+├── models/             # MongoDB schemas
+│   ├── QuizSchema.js
+│   ├── UserSchema.js
+│   └── UserProfileSchema.js
+├── dashboard/          # Main dashboard page
+├── quizzes/           # Student quiz browsing
+├── manage-quizzes/    # Admin quiz management
+├── analytics/         # Analytics dashboard
+├── bulk-upload/       # Bulk upload interface
+├── quiz-build/        # Quiz creation interface
+├── quiz-start/        # Quiz taking interface
+├── sign-in/          # Authentication pages
+├── sign-up/
+└── ...
+```
+
+## Key Features
+
+### Authentication Flow
+1. Users sign up/sign in through Clerk
+2. User profiles are automatically created in the database
+3. Role-based access control (Admin/Student)
+4. Persistent authentication state
+
+### Access Control
+1. **Admin Portal** (`/admin`): Secure admin access with authentication prompt
+2. **Employee Portal** (`/employee`): Dedicated employee interface
+3. **Quick Test Access** (`/test-access`): Non-authenticated test access
+4. **Results/Review** (`/results-review`): View and edit student responses with manual grading
+
+### Quiz System
+- **Creation**: Admins can create quizzes with multiple question types
+- **Bulk Upload**: Import questions from Excel/CSV files
+- **Taking**: Students can browse and take quizzes with real-time timer
+- **Scoring**: Automatic scoring and progress tracking
+- **Analytics**: Detailed performance metrics and insights
+- **Advanced Features**: Question flagging, detailed explanations, time tracking
+- **Auto-Submit**: Automatic submission when timer expires
+
+### Results Management
+- **Manual Editing**: Admins can override individual question results
+- **Score Recalculation**: Automatic score updates based on manual changes
+- **Comprehensive Tables**: Detailed results with employee and store information
+- **Export Functionality**: CSV export with all result data
+
+### User Management
+- **Profiles**: Extended user profiles with preferences
+- **Roles**: Flexible role system for different user types
+- **Statistics**: Track user engagement and performance
+- **Store Information**: Track employee store assignments
+
+## API Endpoints
+
+### Quizzes
+- `GET /api/quizzes` - Fetch all quizzes
+- `POST /api/quizzes` - Create new quiz
+- `PUT /api/quizzes` - Update quiz
+- `DELETE /api/quizzes` - Delete quiz
+
+### Quiz Attempts
+- `GET /api/quiz-attempts` - Fetch attempts for a specific quiz
+- `GET /api/quiz-attempts/all` - Fetch all attempts with quiz data
+- `POST /api/quiz-attempts` - Create new quiz attempt
+- `PUT /api/quiz-attempts/[attemptId]` - Update quiz attempt (for manual editing)
+- `DELETE /api/quiz-attempts/[attemptId]` - Delete quiz attempt
+
+### User Profile
+- `GET /api/user-profile` - Fetch user profile
+- `POST /api/user-profile` - Create user profile
+- `PUT /api/user-profile` - Update user profile
+
+### Bulk Upload
+- `POST /api/bulk-upload` - Upload Excel/CSV files with questions
+- `GET /api/bulk-upload` - Get upload instructions and template
+
+### Analytics
+- `GET /api/analytics` - Fetch analytics data with filters
+
+## Deployment
+
+1. **Build the application**
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy to your preferred platform**
+   - Vercel (recommended for Next.js)
+   - Netlify
+   - AWS
+   - DigitalOcean
+
+3. **Set environment variables** in your deployment platform
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Support
+
+For support and questions, please open an issue in the repository.
